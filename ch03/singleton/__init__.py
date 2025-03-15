@@ -12,8 +12,6 @@ class DBConnect:
             print("create")
             cls._instance = super().__new__(cls)
             cls._instance.con = sqlite3.connect('./mydb.db', check_same_thread=False)
-            cls._instance.con.row_factory = sqlite3.Row  # Dict-like cursor 사용
-
         return cls._instance
 
     def get_connection(self):
