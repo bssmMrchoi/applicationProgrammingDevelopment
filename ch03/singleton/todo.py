@@ -1,5 +1,5 @@
-from . import con, cur
-from ..model import Todo
+from ch03.model import Todo
+from . import db, con, cur
 
 
 cur.execute(
@@ -29,6 +29,8 @@ def find_all():
 
 
 def insert_one(task: str):
+    con1 = db.get_connection()
+    cur1 = con1.cursor()
     query = f"insert into todos(task) values('{task}')"
-    cur.execute(query)
-    con.commit()
+    cur1.execute(query)
+    con1.commit()
