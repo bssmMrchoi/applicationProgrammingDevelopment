@@ -1,29 +1,34 @@
-from typing import List
-
 from . import con, cur
-from ..model.todo import Todo, TodoInsertRequest, TodoResponse
+from ..model import Todo
 
 
-def row_to_model(entity: tuple) -> TodoResponse:
+cur.execute(
+    """
+    CREATE TABLE IF NOT EXISTS todos (
+        task_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        task TEXT NOT NULL UNIQUE,
+        completed INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
+    )
+    """
+)
+
+
+def row_to_model(entity: tuple) -> Todo:
     index, task, completed, created_at = entity
-    return TodoResponse(
-        todo_id=index,
+    return Todo(
         task=task,
-        completed=completed,
-        created_at=created_at
+        completed=completed
     )
 
 
-def find_all() -> List[TodoResponse]:
+def find_all():
     query = "select * from todos"
     cur.execute(query)
     return [row_to_model(row) for row in cur.fetchall()]
 
 
-def insert_one(task: TodoInsertRequest) -> TodoResponse:
-    query = "insert into todos(task) values(?)"
-    cur.execute(query, (str(task.task),))
+def insert_one(task: str):
+    query = f"insert into todos(task) values('{task}')"
+    cur.execute(query)
     con.commit()
-    todo_id = cur.lastrowid
-    cur.execute("SELECT * FROM todos WHERE task_id = ?", (todo_id,))
-    return row_to_model(cur.fetchone())

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 
-from ch04.service import todo as service
-from ch04.model.todo import Todo, TodoInsertRequest, TodoResponse
+from ch05.service import todo as service
+from ch05.model.todo import Todo, TodoInsertRequest, TodoResponse
 
 app = FastAPI()
 

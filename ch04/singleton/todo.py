@@ -1,5 +1,5 @@
-from ch03.model import Todo
-from . import db, con, cur
+from ch04.model import Todo
+from . import db, cur
 
 
 cur.execute(
