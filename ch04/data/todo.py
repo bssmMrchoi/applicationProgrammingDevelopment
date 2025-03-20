@@ -1,6 +1,7 @@
-from . import con, cur
-from ..model import Todo
+from typing import List
 
+from . import con, cur
+from ..model import Todo, TodoResponse
 
 cur.execute(
     """
@@ -14,21 +15,23 @@ cur.execute(
 )
 
 
-def row_to_model(entity: tuple) -> Todo:
-    index, task, completed, created_at = entity
-    return Todo(
+def row_to_model(entity: tuple) -> TodoResponse:
+    task_id, task, completed, created_at = entity
+    return TodoResponse(
+        task_id=task_id,
         task=task,
-        completed=completed
+        completed=completed,
+        created_at=created_at
     )
 
 
-def find_all():
+def find_all() -> List[TodoResponse]:
     query = "select * from todos"
     cur.execute(query)
     return [row_to_model(row) for row in cur.fetchall()]
 
 
-def insert_one(task: str):
-    query = f"insert into todos(task) values('{task}')"
-    cur.execute(query)
+def insert_one(task: Todo):
+    query = "insert into todos(task) values(:task)"
+    cur.execute(query, task.model_dump())
     con.commit()
