@@ -6,7 +6,7 @@ from ch05.model.todo import TodoResponse, Todo
 cur.execute(
     """
     CREATE TABLE IF NOT EXISTS todos (
-        task_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        todo_id INTEGER PRIMARY KEY AUTOINCREMENT,
         task TEXT NOT NULL UNIQUE,
         completed INTEGER NOT NULL DEFAULT 0,
         created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
@@ -16,9 +16,9 @@ cur.execute(
 
 
 def row_to_model(entity: tuple) -> TodoResponse:
-    index, task, completed, created_at = entity
+    todo_id, task, completed, created_at = entity
     return TodoResponse(
-        todo_id=index,
+        todo_id=todo_id,
         task=task,
         completed=completed,
         created_at=created_at
@@ -38,5 +38,10 @@ def insert_one(task: Todo) -> Todo:
     con.commit()
 
     todo_id = cur.lastrowid # excute 한 테이블의 마지막 행 id 값을 가져와주는데
-    cur.execute(f"SELECT * FROM todos WHERE task_id = {todo_id}")
+    cur.execute(f"SELECT * FROM todos WHERE todo_id = {todo_id}")
+    return row_to_model(cur.fetchone())
+
+
+def get_one(todo: Todo) -> TodoResponse:
+    cur.execute("SELECT * FROM todos WHERE task = :task", todo.model_dump())
     return row_to_model(cur.fetchone())

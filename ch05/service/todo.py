@@ -8,3 +8,7 @@ def find_all() -> list[TodoResponse]:
 
 def insert_one(todo: Todo) -> Todo:
     return data.insert_one(todo)
+
+
+def get_one(todo: Todo) -> TodoResponse:
+    return data.get_one(todo)
