@@ -5,16 +5,12 @@ from pydantic import BaseModel
 
 class Todo(BaseModel):
     task: str
-    completed: int
 
 
 class TodoResponse(Todo):
     todo_id: int
+    completed: int
     created_at: datetime
-
-
-class TodoInsertRequest(BaseModel):
-    task: str
 
 
 class TodoRequest(BaseModel):

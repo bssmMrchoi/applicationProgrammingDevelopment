@@ -1,21 +1,16 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, APIRouter
 
 from ch05.service import todo as service
-from ch05.model.todo import Todo, TodoInsertRequest, TodoResponse
+from ch05.model.todo import Todo, TodoResponse
 
-app = FastAPI()
+router = APIRouter(prefix="/todo")
 
 
-@app.get('/')
+@router.get('/')
 def get_all() -> list[TodoResponse]:
     return service.find_all()
 
 
-@app.post('/')
-def insert_one(todo: TodoInsertRequest) -> TodoResponse:
+@router.post('/')
+def insert_one(todo: Todo) -> Todo:
     return service.insert_one(todo)
-
-
-if __name__ == '__main__':
-    import uvicorn
-    uvicorn.run("todo:app", reload=True)
