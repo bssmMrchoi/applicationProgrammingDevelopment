@@ -12,6 +12,3 @@ class TodoResponse(Todo):
     completed: int
     created_at: datetime
 
-
-class TodoRequest(BaseModel):
-    completed: int

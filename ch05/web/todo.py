@@ -1,5 +1,8 @@
+from typing import List
+
 from fastapi import FastAPI, Request, APIRouter, HTTPException
 
+from ch05.error import Duplicate, Missing
 from ch05.service import todo as service
 from ch05.model.todo import Todo, TodoResponse
 
@@ -10,20 +13,38 @@ router = APIRouter(prefix="/todo")
 # / -> 없앰
 # @router.get('/')
 @router.get('')
-def get_all() -> list[TodoResponse]:
+def get_all() -> List[TodoResponse]:
     return service.find_all()
 
 
 @router.post('')
-def insert_one(todo: Todo) -> Todo:
-    return service.insert_one(todo)
+def insert_one(todo: Todo) -> TodoResponse:
+    try:
+        return service.insert_one(todo)
+    except Duplicate as e:
+        raise HTTPException(status_code=404, detail=e.msg)
 
 
 @router.get('/{task}')
 def get_one(task: str) -> TodoResponse:
     try:
         return service.get_one(Todo(task=task))
+    except Missing as e:
+        raise HTTPException(status_code=404, detail=e.msg)
 
-    # 모든 예외를 처리하기 때문에 좋진 않다.
-    except Exception as e:
-        raise HTTPException(status_code=404, detail="Invalid task")
+
+# completed 만 변경
+@router.patch('/{task}')
+def modify_completed(task: str) -> TodoResponse:
+    try:
+        return service.modify_completed(Todo(task=task))
+    except Missing as e:
+        raise HTTPException(status_code=404, detail=e.msg)
+
+
+@router.delete("/{task}")
+def delete(task: str) -> bool:
+    try:
+        return service.delete(Todo(task=task))
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
