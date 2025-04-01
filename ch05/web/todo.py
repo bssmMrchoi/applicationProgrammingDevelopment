@@ -25,26 +25,26 @@ def insert_one(todo: Todo) -> TodoResponse:
         raise HTTPException(status_code=404, detail=e.msg)
 
 
-@router.get('/{task}')
-def get_one(task: str) -> TodoResponse:
+@router.get('/{todo_id}')
+def get_one(todo_id: int) -> TodoResponse:
     try:
-        return service.get_one(Todo(task=task))
+        return service.get_one(todo_id)
     except Missing as e:
         raise HTTPException(status_code=404, detail=e.msg)
 
 
 # completed 만 변경
-@router.patch('/{task}')
-def modify_completed(task: str) -> TodoResponse:
+@router.patch('/{todo_id}')
+def modify_completed(todo_id: int) -> TodoResponse:
     try:
-        return service.modify_completed(Todo(task=task))
+        return service.modify_completed(todo_id)
     except Missing as e:
         raise HTTPException(status_code=404, detail=e.msg)
 
 
-@router.delete("/{task}")
-def delete(task: str) -> bool:
+@router.delete("/{todo_id}")
+def delete(todo_id: int) -> bool:
     try:
-        return service.delete(Todo(task=task))
+        return service.delete(todo_id)
     except Missing as exc:
         raise HTTPException(status_code=404, detail=exc.msg)

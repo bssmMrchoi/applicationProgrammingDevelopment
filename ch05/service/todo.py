@@ -13,13 +13,13 @@ def insert_one(todo: Todo) -> TodoResponse:
     return data.insert_one(todo)
 
 
-def get_one(todo: Todo) -> TodoResponse:
-    return data.get_one(todo)
+def get_one(todo_id: int) -> TodoResponse:
+    return data.get_one(todo_id)
 
 
-def modify_completed(todo: Todo) -> TodoResponse:
-    return data.modify_completed(todo)
+def modify_completed(todo_id: int) -> TodoResponse:
+    return data.modify_completed(todo_id)
 
 
-def delete(todo: Todo) -> bool:
-    return data.delete(todo)
+def delete(todo_id: int) -> bool:
+    return data.delete(todo_id)

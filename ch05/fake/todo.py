@@ -26,11 +26,11 @@ def find_all() -> list[TodoResponse]:
     return _todos
 
 
-def get_one(todo: Todo) -> TodoResponse:
+def get_one(todo_id: int) -> TodoResponse:
     """검색한 할일을 반환한다."""
-    _todo = next((x for x in _todos if x.task == todo.task), None)
+    _todo = next((x for x in _todos if x.todo_id == todo_id), None)
     if _todo is None:
-        raise Missing(msg=f"{todo.task} not found")
+        raise Missing(msg=f"{todo_id} not found")
     return _todo
 
 
@@ -45,19 +45,19 @@ def insert_one(todo: Todo) -> TodoResponse:
     return _todos[task_id]
 
 
-def modify_completed(todo: Todo) -> TodoResponse:
-    _todo = next((x for x in _todos if x.task == todo.task), None)
+def modify_completed(todo_id: int) -> TodoResponse:
+    _todo = next((x for x in _todos if x.todo_id == todo_id), None)
     if _todo is None:
-        raise Missing(msg=f"{todo.task} not found")
+        raise Missing(msg=f"{todo_id} not found")
     _todo.completed = not _todo.completed
     return _todo
 
 
-def delete(todo: Todo) -> bool:
+def delete(todo_id: int) -> bool:
     """할일을 삭제한다. 만약 대상이 없다면 None을 반환한다."""
-    _todo = next((x for x in _todos if x.task == todo.task), None)
+    _todo = next((x for x in _todos if x.todo_id == todo_id), None)
     if _todo is None:
-        raise Missing(msg=f"{todo.task} not found")
+        raise Missing(msg=f"{todo_id} not found")
 
     _todos.remove(_todo)
     return True

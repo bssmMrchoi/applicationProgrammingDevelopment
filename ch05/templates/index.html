@@ -36,13 +36,13 @@
         })
     }
 
-    async function delete_task(task) {
+    async function delete_task(todo_id) {
         $.ajax({
                 type: 'DELETE',
-                url: 'http://127.0.0.1:8000/todo/'+task,
+                url: 'http://127.0.0.1:8000/todo/'+todo_id,
                 contentType: 'application/json',
             }).done(function(result) {
-            $("#"+task).remove()
+            $("#"+todo_id).remove()
             }).fail(function(result) {
                 console.log(result.responseJSON.detail)
                 alert(result.responseJSON?.detail)
@@ -50,16 +50,16 @@
     }
 
 
-    async function modify_task(task) {
+    async function modify_task(todo_id) {
         $.ajax({
                 type: 'PATCH',
-                url: 'http://127.0.0.1:8000/todo/'+task,
+                url: 'http://127.0.0.1:8000/todo/'+todo_id,
                 contentType: 'application/json',
             }).done(function(result) {
                 if(result.completed) {
-                    $("#"+task+"_span").addClass("completed")
+                    $("#"+todo_id+"_span").addClass("completed")
                 } else {
-                    $("#"+task+"_span").removeClass("completed")
+                    $("#"+todo_id+"_span").removeClass("completed")
                 }
             }).fail(function(result) {
                 console.log(result.responseJSON.detail)
@@ -77,13 +77,13 @@
             </div>
         <ul class="list-group mt-4" id="task_list">
             {% for todo in todos %}
-                <li class="list-group-item" id="{{ todo.task }}">
-                    <span class="{% if todo.completed %}completed{% endif %}" id="{{ todo.task }}_span">
+                <li class="list-group-item" id="{{ todo.todo_id }}">
+                    <span class="{% if todo.completed %}completed{% endif %}" id="{{ todo.todo_id }}_span">
                         {{ todo.task }}
                     </span>
                     <!-- loop.index0 : 0부터 시작하는 인덱스 값 반환 -->
-                    <a onclick="modify_task('{{todo.task}}')" class="btn btn-success btn-sm ml-2">Complete</a>
-                    <a onclick="delete_task('{{todo.task}}')" class="btn btn-danger btn-sm ml-2">Delete</a>
+                    <a onclick="modify_task('{{todo.todo_id}}')" class="btn btn-success btn-sm ml-2">Complete</a>
+                    <a onclick="delete_task('{{todo.todo_id}}')" class="btn btn-danger btn-sm ml-2">Delete</a>
                 </li>
             {% endfor %}
         </ul>
