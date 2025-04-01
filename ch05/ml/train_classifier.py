@@ -14,9 +14,12 @@ texts = df["content"]
 labels = df["category"]
 
 # ✂️ 학습/테스트 분할
+# test size=0.2 전체 데이터 중 20%는 테스트용, 나머지 80%는 학습용으로 나눔
 X_train, X_test, y_train, y_test = train_test_split(texts, labels, test_size=0.2, random_state=42)
 
 # 🧪 파이프라인 (벡터화 + 분류기)
+# TfidfVectorizer 단어들의 중요도를 계산해서 텍스트를 숫자 벡터로 바꿔주는 도구야.
+# MultinomialNB 분류 모델
 pipeline = Pipeline([
     ("tfidf", TfidfVectorizer()),
     ("clf", MultinomialNB())
