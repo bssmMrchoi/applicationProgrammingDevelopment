@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from ch05.error import Missing, Duplicate
-from ch05.model.todo import TodoResponse, Todo
+from ch05_todolist.error import Missing, Duplicate
+from ch05_todolist.model.todo import TodoResponse, Todo
 
 _todos = [
     TodoResponse(

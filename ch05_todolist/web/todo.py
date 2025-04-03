@@ -2,9 +2,9 @@ from typing import List
 
 from fastapi import FastAPI, Request, APIRouter, HTTPException
 
-from ch05.error import Duplicate, Missing
-from ch05.service import todo as service
-from ch05.model.todo import Todo, TodoResponse
+from ch05_todolist.error import Duplicate, Missing
+from ch05_todolist.service import todo as service
+from ch05_todolist.model.todo import Todo, TodoResponse
 
 router = APIRouter(prefix="/todo")
 

@@ -1,9 +1,9 @@
 from sqlite3 import IntegrityError
 from typing import List
 
-from ch05.data import cur, con
-from ch05.error import Duplicate, Missing
-from ch05.model.todo import TodoResponse, Todo
+from ch05_todolist.data import cur, con
+from ch05_todolist.error import Duplicate, Missing
+from ch05_todolist.model.todo import TodoResponse, Todo
 
 cur.execute(
     """

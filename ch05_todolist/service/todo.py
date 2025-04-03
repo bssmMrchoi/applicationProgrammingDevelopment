@@ -1,7 +1,7 @@
-# from ch05.data import todo as data
-from ch05.fake import todo as data
-from ch05.ml.predictor import predict_category
-from ch05.model.todo import Todo, TodoResponse
+# from ch05_todolist.data import todo as data
+from ch05_todolist.fake import todo as data
+from ch05_todolist.ml.predictor import predict_category
+from ch05_todolist.model.todo import Todo, TodoResponse
 
 
 def find_all() -> list[TodoResponse]:
