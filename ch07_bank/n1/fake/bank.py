@@ -1,6 +1,6 @@
 from typing import List
 
-from ch06_bank.n1.model.bank import BankResponse
+from ch07_bank.n1.model.bank import BankResponse
 
 _banks = [
     BankResponse(
@@ -23,3 +23,6 @@ account = 1000
 def find_all() -> List[BankResponse]:
     """할일 목록을 반환한다."""
     return _banks
+
+
+# def insert():

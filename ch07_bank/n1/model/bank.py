@@ -4,10 +4,10 @@ from pydantic import BaseModel
 
 
 class Bank(BaseModel):
-    id: int
+    name: str
 
 
 class BankResponse(Bank):
-    name: str
+    id: int
     min_score: int
     accounts: List[int]

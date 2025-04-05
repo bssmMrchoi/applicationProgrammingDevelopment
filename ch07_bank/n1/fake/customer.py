@@ -1,6 +1,6 @@
 from typing import List
 
-from ch06_bank.n1.model.customer import CustomerResponse, EmploymentStatus
+from ch07_bank.n1.model.customer import CustomerResponse, EmploymentStatus
 
 _customer = [
     CustomerResponse(

@@ -1,6 +1,4 @@
 from fastapi import FastAPI
-from starlette.requests import Request
-from starlette.templating import Jinja2Templates
 
 # from web import todo
 from fake import bank
