@@ -11,3 +11,9 @@ class DepartmentResponse(Department):
     id: int
     quota: int
     description: Optional[str] = None
+
+
+class DepartmentRequest(BaseModel):
+    name: str
+    quota: int
+    description: Optional[str] = None

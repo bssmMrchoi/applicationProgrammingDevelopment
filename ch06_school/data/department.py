@@ -1,20 +1,22 @@
+import sqlite3
 from typing import List
 
 from fastapi import HTTPException
 
 from . import con, cur
-from ch06_school.model.department import DepartmentResponse
+from ch06_school.model.department import DepartmentResponse, DepartmentRequest
+from ..error import Missing, Duplicate
 
 cur.executescript(
     """
-    CREATE TABLE IF NOT EXISTS departments (
+    CREATE TABLE IF NOT EXISTS department (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL UNIQUE,
         quota INTEGER NOT NULL DEFAULT 0,
         description TEXT
     );
-    INSERT OR IGNORE INTO departments(name, quota) VALUES ('sw', 32);
-    INSERT OR IGNORE INTO departments(name, quota) VALUES ('embedded sw', 32);
+    INSERT OR IGNORE INTO department(name, quota) VALUES ('sw', 32);
+    INSERT OR IGNORE INTO department(name, quota) VALUES ('embedded sw', 32);
     """
 )
 
@@ -30,16 +32,26 @@ def row_to_model(entity: tuple) -> DepartmentResponse:
 
 
 def find_all() -> List[DepartmentResponse]:
-    query = "select * from departments"
+    query = "select * from department"
     cur.execute(query)
     return [row_to_model(row) for row in cur.fetchall()]
 
 
-def find_one(department_id: int) -> DepartmentResponse:
-    query = f"select * from departments where id={department_id}"
+def find_by_id(department_id: int) -> DepartmentResponse:
+    query = f"select * from department where id={department_id}"
     cur.execute(query)
     row = cur.fetchone()
     if row:
         return row_to_model(row)
     else:
-        raise HTTPException(status_code=404, detail=f'dept id = {department_id} not found')
+        # raise HTTPException(status_code=404, detail=f'dept id = {department_id} not found')
+        raise Missing(msg=f"{department_id} not found")
+
+
+def save(department: DepartmentRequest):
+    query = "insert into department(name, quota, description) values(:name, :quota, :description)"
+    try:
+        cur.execute(query, department.model_dump())
+        con.commit()
+    except sqlite3.IntegrityError:
+        raise Duplicate(msg=f"{department.name} is duplicate")
