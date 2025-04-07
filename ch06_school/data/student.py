@@ -1,7 +1,7 @@
 from typing import List
 
 from . import con, cur
-from ch06_department.model.student import StudentResponse, AssignDepartment
+from ch06_school.model.student import StudentResponse, AssignDepartment
 
 cur.executescript(
     """

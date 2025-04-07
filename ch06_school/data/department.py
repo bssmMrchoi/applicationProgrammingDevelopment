@@ -3,7 +3,7 @@ from typing import List
 from fastapi import HTTPException
 
 from . import con, cur
-from ch06_department.model.department import DepartmentResponse
+from ch06_school.model.department import DepartmentResponse
 
 cur.executescript(
     """

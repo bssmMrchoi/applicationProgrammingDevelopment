@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Body, Path
 
-from ch06_department.model.student import StudentResponse, AssignDepartment, AssignDepartmentId
+from ch06_school.model.student import StudentResponse, AssignDepartment, AssignDepartmentId
 from data import student
 from data import department
 from service import student as student_service

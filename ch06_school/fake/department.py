@@ -1,6 +1,6 @@
 from typing import List
 
-from ch06_department.model.department import DepartmentResponse
+from ch06_school.model.department import DepartmentResponse
 
 _departments = [
     DepartmentResponse(
