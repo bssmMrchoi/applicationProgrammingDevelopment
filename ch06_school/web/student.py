@@ -1,14 +1,26 @@
+from typing import List
+
 from fastapi import APIRouter, Path, Body
 
-from ch06_school.model.student import AssignDepartmentId, StudentResponse, AssignDepartment
+from ch06_school.model.student import AssignDepartmentId, StudentResponse, AssignDepartment, Student
 from ch06_school.service import student as service
 
 router = APIRouter(prefix="/students")
 
 
 @router.get("")
-def find_all():
+def find_all() -> List[StudentResponse]:
     return service.find_all()
+
+
+@router.get("/{student_id}")
+def get_by_id(student_id: int) -> StudentResponse:
+    return service.get_by_id(student_id)
+
+@router.post("")
+def create(student: Student) -> StudentResponse:
+    return service.save(student)
+
 
 
 @router.patch("/{student_id}")

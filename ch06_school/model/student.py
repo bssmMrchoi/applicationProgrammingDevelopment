@@ -2,15 +2,17 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ch06_school.model.department import Department
+
 
 class Student(BaseModel):
     name: str
+    score: float
 
 
 class StudentResponse(Student):
     id: int
-    score: float
-    department_id: Optional[int] = None
+    department: Department = None
 
 
 class AssignDepartmentId(BaseModel):

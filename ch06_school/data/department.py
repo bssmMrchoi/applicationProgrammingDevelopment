@@ -55,3 +55,17 @@ def save(department: DepartmentRequest):
         con.commit()
     except sqlite3.IntegrityError:
         raise Duplicate(msg=f"{department.name} is duplicate")
+
+def update(department_id: int, request_dto: DepartmentRequest):
+    query = f"update department set quota=:quota where id={department_id}"
+    cur.execute(query, request_dto.model_dump())
+    con.commit()
+    print(cur.fetchone())
+
+def delete(department_id: int) -> bool:
+    query = f"delete from department where id={department_id}"
+    cur.execute(query)
+    con.commit()
+    if cur.rowcount == 0:
+        raise Missing(msg=f"{department_id} already delete")
+    return True
