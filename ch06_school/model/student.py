@@ -16,7 +16,7 @@ class StudentResponse(Student):
 
 
 class AssignDepartmentId(BaseModel):
-    department_id: int
+    department_id: Optional[int]=None
 
 
 class AssignDepartment(AssignDepartmentId):

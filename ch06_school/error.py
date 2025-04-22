@@ -13,6 +13,13 @@ class StudentNotFoundException(SchoolException):
             status_code=status.HTTP_404_NOT_FOUND
         )
 
+class AssignDepartmentException(SchoolException):
+    def __init__(self, student_name: str):
+        super().__init__(
+            message=f"학과 정원 초과로 {student_name} 학생 학과 재지정 필요!",
+            status_code=status.HTTP_412_PRECONDITION_FAILED
+        )
+
 
 class Missing(Exception):
     def __init__(self, msg):

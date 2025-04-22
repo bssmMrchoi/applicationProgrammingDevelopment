@@ -12,8 +12,8 @@ cur.executescript(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         score REAL NOT NULL DEFAULT 0,
-        department_id int,
-        foreign key(department_id) references departments(id)
+        department_id INTEGER,
+        foreign key(department_id) references department(id)
     );
     INSERT OR IGNORE INTO student(id, name, score, department_id) VALUES (2000, 'choi', 98.5, 1);
     INSERT OR IGNORE INTO student(id, name, score) VALUES (2001,'jung', 99.5);
@@ -41,7 +41,13 @@ def row_to_model(entity: tuple) -> StudentResponse:
 
 def find_all() -> List[StudentResponse]:
     query = ("select s.id, s.name, s.score, d.name "
-             "from student s left join department d on d.id = s.department_id")
+             "from student s left join department d on d.id = s.department_id order by score")
+    cur.execute(query)
+    return [row_to_model(row) for row in cur.fetchall()]
+
+def find_by_dept_id_score_desc(department_id: int) -> List[StudentResponse]:
+    query = ("select s.id, s.name, s.score, d.name "
+             f"from student s left join department d on d.id = s.department_id where department_id = {department_id} order by score desc")
     cur.execute(query)
     return [row_to_model(row) for row in cur.fetchall()]
 
