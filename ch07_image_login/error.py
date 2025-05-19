@@ -18,3 +18,16 @@ class ImageNotFoundException(UploadException):
             message=f"Image not found",
             status_code=status.HTTP_404_NOT_FOUND
         )
+
+class InvalidUserException(UploadException):
+    def __init__(self):
+        super().__init__(
+            message=f"check username and password"
+        )
+
+class UserNotFoundException(UploadException):
+    def __init__(self):
+        super().__init__(
+            message=f"user not found, please login",
+            status_code=status.HTTP_401_UNAUTHORIZED
+        )

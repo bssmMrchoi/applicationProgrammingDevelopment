@@ -1,10 +1,12 @@
 from fastapi import FastAPI, Body, Path, Request
 from fastapi.responses import JSONResponse
 from ch07_image_login.error import UploadException
-from ch07_image_login.web import upload
+from ch07_image_login.web import upload, cookie_login, session_login
 
 app = FastAPI()
 app.include_router(upload.router)
+app.include_router(cookie_login.router)
+app.include_router(session_login.router)
 
 
 @app.exception_handler(UploadException)

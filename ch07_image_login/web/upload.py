@@ -1,7 +1,6 @@
 import os
 
 from fastapi import APIRouter, UploadFile, File
-from scipy._lib.cobyqa import settings
 from starlette.responses import FileResponse
 
 from ch07_image_login.service import upload as service
